@@ -15,12 +15,22 @@
   letter-spacing: 0.02em;
   text-align: center;
   text-transform: uppercase;
-  color: var(--color-metal-1);
-  perspective: 800px;
+  perspective: 1000px;
 }
 
 .preloader__headline .char {
   display: inline-block;
   transform-style: preserve-3d;
-  will-change: transform;
+  will-change: transform, filter;
+
+  background: linear-gradient(
+    160deg,
+    var(--color-metal-1) 0%,
+    var(--color-metal-2) 45%,
+    var(--color-text) 60%,
+    var(--color-metal-1) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
