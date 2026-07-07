@@ -1,0 +1,26 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+}
+
+.preloader__headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-metal-1);
+  perspective: 800px;
+}
+
+.preloader__headline .char {
+  display: inline-block;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
