@@ -1,71 +1,58 @@
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { SplitText } from "gsap/SplitText";
+import { useRef, useEffect, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { Environment, Float } from "@react-three/drei";
 import { gsap } from "../lib/gsap";
+import AuraText3D from "./AuraText3D";
 import "./Preloader.css";
 
 export default function Preloader({ onComplete }) {
   const containerRef = useRef(null);
-  const headlineRef = useRef(null);
+  const fontAssetUrl = "/fonts/font.json";
 
-  useGSAP(
-    (context, contextSafe) => {
-      const split = new SplitText(headlineRef.current, {
-        type: "chars",
-        charsClass: "char",
-      });
-
-      gsap.set(split.chars, {
-        x: () => gsap.utils.random(-1200, 1200),
-        y: () => gsap.utils.random(-900, 900),
-        z: () => gsap.utils.random(-1000, 400),
-        rotationX: () => gsap.utils.random(-220, 220),
-        rotationY: () => gsap.utils.random(-220, 220),
-        rotationZ: () => gsap.utils.random(-120, 120),
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.to(containerRef.current, {
         opacity: 0,
-        filter: "blur(18px)",
+        duration: 1.2,
+        ease: "power2.inOut",
+        delay: 3.2,
+        onComplete: () => onComplete?.(),
       });
+    });
 
-      const runAnimation = contextSafe(() => {
-        const tl = gsap.timeline({ onComplete: () => onComplete?.() });
-
-        tl.to(split.chars, {
-          x: 0,
-          y: 0,
-          z: 0,
-          rotationX: 0,
-          rotationY: 0,
-          rotationZ: 0,
-          opacity: 1,
-          duration: 1.3,
-          ease: "power4.out",
-          stagger: { each: 0.035, from: "random" },
-        })
-          .to(
-            split.chars,
-            {
-              filter: "blur(0px)",
-              duration: 0.9,
-              ease: "power2.out",
-              stagger: { each: 0.035, from: "random" },
-            },
-            "<0.1"
-          )
-          .to(containerRef.current, { autoAlpha: 0, duration: 0.6 }, "+=0.3");
-      });
-
-      Promise.all([document.fonts.ready]).then(runAnimation);
-
-      return () => split.revert();
-    },
-    { scope: containerRef }
-  );
+    return () => ctx.revert();
+  }, [onComplete]);
 
   return (
     <div className="preloader" ref={containerRef}>
-      <h1 className="preloader__headline" ref={headlineRef}>
-        AURA COLLECTIVE
-      </h1>
+      <Canvas camera={{ position: [0, 0, 18], fov: 40 }}>
+        <Suspense fallback={null}>
+          <Environment preset="city" />
+
+          <ambientLight intensity={0.5} />
+          <directionalLight
+            position={[10, 10, 10]}
+            intensity={2}
+            color="#ffffff"
+          />
+          <directionalLight
+            position={[-10, 10, 10]}
+            intensity={2}
+            color="#ffffff"
+          />
+          <pointLight position={[0, 0, 5]} intensity={1.5} color="#ffffff" />
+
+          <Float speed={2} rotationIntensity={0.15} floatIntensity={0.4}>
+            <group position={[0, 1, 0]}>
+              <AuraText3D text="AURA" fontUrl={fontAssetUrl} />
+            </group>
+
+            <group position={[0, -1, 0]}>
+              <AuraText3D text="COLLECTIVE" fontUrl={fontAssetUrl} />
+            </group>
+          </Float>
+        </Suspense>
+      </Canvas>
     </div>
   );
 }
