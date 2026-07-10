@@ -11,12 +11,11 @@ export default function Preloader({ onComplete }) {
 
   useEffect(() => {
     let ctx = gsap.context(() => {
-      gsap.to(containerRef.current, {
-        opacity: 0,
-        duration: 1.2,
-        ease: "power2.inOut",
-        delay: 3.2,
-        onComplete: () => onComplete?.(),
+      // We removed the opacity fade-out entirely. 
+      // The canvas stays fully visible until the panels cover it.
+      // 2.8 seconds covers the 2.45s animation math + human reading buffer.
+      gsap.delayedCall(2.8, () => {
+        onComplete?.();
       });
     });
 
@@ -30,16 +29,8 @@ export default function Preloader({ onComplete }) {
           <Environment preset="city" />
 
           <ambientLight intensity={0.5} />
-          <directionalLight
-            position={[10, 10, 10]}
-            intensity={2}
-            color="#ffffff"
-          />
-          <directionalLight
-            position={[-10, 10, 10]}
-            intensity={2}
-            color="#ffffff"
-          />
+          <directionalLight position={[10, 10, 10]} intensity={2} color="#ffffff" />
+          <directionalLight position={[-10, 10, 10]} intensity={2} color="#ffffff" />
           <pointLight position={[0, 0, 5]} intensity={1.5} color="#ffffff" />
 
           <Float speed={2} rotationIntensity={0.15} floatIntensity={0.4}>

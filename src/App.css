@@ -1,0 +1,43 @@
+/* We use a fixed overlay that ignores pointer events.
+  The panels start off-screen (left: -50vw, right: -50vw).
+*/
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.transition-panel {
+  position: absolute;
+  top: 0;
+  width: 50vw;
+  height: 100vh;
+  background: var(--color-bg-alt);
+}
+
+.transition-panel.left {
+  left: -50vw; /* Hidden off the left edge */
+  border-right: 1px solid var(--color-metal-2);
+}
+
+.transition-panel.right {
+  right: -50vw; /* Hidden off the right edge */
+  border-left: 1px solid var(--color-metal-2);
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}

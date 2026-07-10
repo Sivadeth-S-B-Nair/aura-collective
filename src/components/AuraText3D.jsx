@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import { Text3D } from "@react-three/drei";
 import { gsap } from "../lib/gsap";
 
+
 const Letter = ({ char, index, targetX, fontUrl }) => {
   const meshRef = useRef();
 
@@ -9,10 +10,12 @@ const Letter = ({ char, index, targetX, fontUrl }) => {
     if (!meshRef.current) return;
 
     let ctx = gsap.context(() => {
+
       gsap.set(meshRef.current.position, {
-        x: gsap.utils.random(-30, 30),
-        y: gsap.utils.random(-20, 20),
-        z: gsap.utils.random(-40, 20),
+        x: gsap.utils.random(-25, 25),
+        y: gsap.utils.random(-15, 15),
+
+        z: gsap.utils.random(20, 60), 
       });
       
       gsap.set(meshRef.current.rotation, {
@@ -21,27 +24,29 @@ const Letter = ({ char, index, targetX, fontUrl }) => {
         z: gsap.utils.random(-Math.PI * 2, Math.PI * 2),
       });
 
+
       gsap.to(meshRef.current.position, {
         x: targetX, 
         y: 0,
         z: 0,
-        duration: 2,
-        ease: "expo.inOut",
-        delay: index * 0.05,
+        duration: 2.2, 
+        ease: "power4.out", 
+        delay: index * 0.04, 
       });
 
       gsap.to(meshRef.current.rotation, {
         x: 0,
         y: 0,
         z: 0,
-        duration: 2.5,
-        ease: "expo.inOut",
-        delay: index * 0.05,
+        duration: 2.2,
+        ease: "power4.out", 
+        delay: index * 0.04,
       });
     });
 
     return () => ctx.revert();
   }, [index, targetX]);
+
 
   return (
     <Text3D
