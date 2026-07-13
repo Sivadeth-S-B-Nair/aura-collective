@@ -7,4 +7,13 @@
   height: 100vh;
   background: var(--color-bg);
   pointer-events: none; /* Prevents accidental interaction with the 3D canvas */
+
+
+    background: radial-gradient(
+    circle at 50% 50%, 
+    #251c4a 0%, 
+    var(--color-bg) 60%, 
+    #000000 100%
+  );
 }
+

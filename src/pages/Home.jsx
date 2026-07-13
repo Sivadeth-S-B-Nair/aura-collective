@@ -1,0 +1,9 @@
+import HeroSection from '../components/layouts/HeroSection';
+
+export default function Home() {
+  return (
+    <div className="page-home">
+      <HeroSection />
+    </div>
+  );
+}

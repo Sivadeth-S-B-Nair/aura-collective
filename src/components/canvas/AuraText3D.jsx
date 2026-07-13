@@ -1,20 +1,19 @@
 import { useRef, useEffect } from "react";
 import { Text3D } from "@react-three/drei";
-import { gsap } from "../lib/gsap";
-
+import { gsap } from "../../lib/gsap";
 
 const Letter = ({ char, index, targetX, fontUrl }) => {
   const meshRef = useRef();
+  const materialRef = useRef(); // ADDED: You must have a ref to the material to fade it
 
   useEffect(() => {
-    if (!meshRef.current) return;
+    if (!meshRef.current || !materialRef.current) return;
 
     let ctx = gsap.context(() => {
 
       gsap.set(meshRef.current.position, {
         x: gsap.utils.random(-25, 25),
         y: gsap.utils.random(-15, 15),
-
         z: gsap.utils.random(20, 60), 
       });
       
@@ -24,7 +23,7 @@ const Letter = ({ char, index, targetX, fontUrl }) => {
         z: gsap.utils.random(-Math.PI * 2, Math.PI * 2),
       });
 
-
+      // 2. ASSEMBLE
       gsap.to(meshRef.current.position, {
         x: targetX, 
         y: 0,
@@ -42,6 +41,15 @@ const Letter = ({ char, index, targetX, fontUrl }) => {
         ease: "power4.out", 
         delay: index * 0.04,
       });
+
+      // ADDED: This mathematically fades the 3D text.
+      // It starts at 2.8s, perfectly syncing with the curtain close.
+      // gsap.to(materialRef.current, {
+      //   opacity: 0,
+      //   duration: 0.8, // Exact duration of the curtain close in App.jsx
+      //   ease: "power4.inOut",
+      //   delay: 2.8,
+      // });
     });
 
     return () => ctx.revert();
@@ -63,10 +71,13 @@ const Letter = ({ char, index, targetX, fontUrl }) => {
     >
       {char}
       <meshStandardMaterial 
+        ref={materialRef}
         color="#d0d0d5" 
         metalness={0.9} 
         roughness={0.15} 
         envMapIntensity={2}
+        // transparent={true} // CRITICAL: Without this, WebGL ignores opacity
+        opacity={1}
       />
     </Text3D>
   );
@@ -82,7 +93,6 @@ export default function AuraText3D({ text, fontUrl }) {
   return (
     <group>
       {letters.map((char, i) => {
-
         const exactTargetX = startX + (i * letterSpacing);
         
         return (

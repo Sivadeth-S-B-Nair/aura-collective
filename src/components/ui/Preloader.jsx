@@ -1,8 +1,8 @@
 import { useRef, useEffect, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, Float } from "@react-three/drei";
-import { gsap } from "../lib/gsap";
-import AuraText3D from "./AuraText3D";
+import { gsap } from "../../lib/gsap";
+import AuraText3D from "../canvas/AuraText3D";
 import "./Preloader.css";
 
 export default function Preloader({ onComplete }) {
@@ -11,12 +11,21 @@ export default function Preloader({ onComplete }) {
 
   useEffect(() => {
     let ctx = gsap.context(() => {
-      // We removed the opacity fade-out entirely. 
-      // The canvas stays fully visible until the panels cover it.
-      // 2.8 seconds covers the 2.45s animation math + human reading buffer.
+      
+      // 1. Fade the canvas out.
+      // Duration and ease perfectly match the panel closing animation in App.jsx.
+      // gsap.to(containerRef.current, {
+      //   opacity: 0,
+      //   duration: 0.8, 
+      //   ease: "power3.inOut",
+      //   delay: 2.8, 
+      // });
+
+      // 2. Signal App.jsx to close the panels at the exact same moment the fade starts.
       gsap.delayedCall(2.8, () => {
-        onComplete?.();
+        if (onComplete) onComplete();
       });
+
     });
 
     return () => ctx.revert();
