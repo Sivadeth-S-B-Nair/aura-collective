@@ -8,6 +8,7 @@
   pointer-events: none;
   display: flex;
   overflow: hidden;
+  filter: drop-shadow(0px 0px 40px rgba(0, 0, 0, 0.8));
 }
 
 .transition-panel {
@@ -28,16 +29,14 @@
 
 .transition-panel.left {
   left: -50vw;
-  border-right: 1px solid #4a4a55; /* Lighter edge to mimic a bevel */
-  box-shadow: inset -4px 0 15px rgba(255, 255, 255, 0.05), 
-              15px 0 40px rgba(0, 0, 0, 0.6);
+  border-right: 1px solid #4a4a55; 
+  box-shadow: inset -4px 0 15px rgba(255, 255, 255, 0.05);
 }
 
 .transition-panel.right {
   right: -50vw;
   border-left: 1px solid #4a4a55;
-  box-shadow: inset 4px 0 15px rgba(255, 255, 255, 0.05), 
-              -15px 0 40px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 4px 0 15px rgba(255, 255, 255, 0.05);
 }
 
 .hero {

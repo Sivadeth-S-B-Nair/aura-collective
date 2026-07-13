@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Environment, ContactShadows } from '@react-three/drei';
+import CameraLens from '../canvas/CameraLens';
 import './HeroSection.css';
 
 export default function HeroSection() {
@@ -41,9 +44,7 @@ export default function HeroSection() {
           </h1>
           
           <p className="hero-description">
-            The standard approach to conceptualizing modern designs. 
-            Integrating performance with aesthetic precision to build 
-            future-proof digital architectures.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia maiores illum unde eum cumque necessitatibus, id quasi voluptas officia aliquam, iste fuga voluptatem, architecto blanditiis minus error dolor dolorem sunt.
           </p>
           
           <button className="btn-secondary">
@@ -56,18 +57,30 @@ export default function HeroSection() {
 
         {/* Right Column: 3D Asset Container */}
         <div className="hero-canvas-container">
-          {/* This div is your placeholder. 
-            When ready, replace the contents of this div with your 
-            <Canvas> and 3D Model components. 
-          */}
-          <div className="canvas-placeholder">
-            <span>[ 3D Asset Canvas Area ]</span>
-          </div>
+          <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
+            <Suspense fallback={null}>
+              {/* Studio lighting setup for metallic reflections */}
+              <Environment preset="city" />
+              <ambientLight intensity={0.6} />
+              <directionalLight position={[10, 10, 10]} intensity={2.5} color="#ffffff" />
+              <directionalLight position={[-10, -10, 10]} intensity={1} color="#5ab0ff" />
+              
+              <CameraLens modelPath="/models/camera.glb" baseScale={30} />
+              
+              {/* Fake ambient occlusion shadow to ground the floating object */}
+              <ContactShadows 
+                position={[0, -2.5, 0]} 
+                opacity={0.6} 
+                scale={10} 
+                blur={2.5} 
+                far={4} 
+              />
+            </Suspense>
+          </Canvas>
         </div>
       </main>
 
       {/* --- DECORATIONS & CONTROLS --- */}
-      {/* Right side pagination */}
       <div className="side-pagination">
         <div className="dot active"></div>
         <div className="dot"></div>
@@ -75,14 +88,12 @@ export default function HeroSection() {
         <div className="dot"></div>
       </div>
 
-      {/* Bottom Center pagination */}
       <div className="bottom-pagination">
         <div className="line-dot"></div>
         <div className="line-dot active-line"></div>
         <div className="line-dot"></div>
       </div>
 
-      {/* Bottom Right Floating Icons */}
       <div className="floating-actions">
         <button className="icon-btn">+</button>
         <button className="icon-btn">
