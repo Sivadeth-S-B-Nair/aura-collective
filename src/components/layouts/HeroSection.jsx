@@ -1,12 +1,45 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Environment, ContactShadows } from '@react-three/drei';
 import CameraLens from '../canvas/CameraLens';
+import { gsap } from '../../lib/gsap';
+import { useGSAP } from '@gsap/react';
 import './HeroSection.css';
 
 export default function HeroSection() {
+  const bgContainerRef = useRef(null);
+  const sheenRef = useRef(null);
+
+  useGSAP(() => {
+    // 1. Fade in the entire background container
+    gsap.to(bgContainerRef.current, {
+      opacity: 1,
+      duration: 1,
+      ease: "power2.out",
+    });
+
+    // 2. The Metallic Light Sweep
+    gsap.fromTo(sheenRef.current, 
+      { rotation: 25, xPercent: -30 },
+      {
+        xPercent: 30, 
+        duration: 3.5, 
+        ease: "power2.out",
+      }
+    );
+  });
+
   return (
     <section className="hero-section">
+      
+      {/* THE NEW LAYERED METALLIC BACKGROUND */}
+      <div className="hero-bg-container" ref={bgContainerRef}>
+        <div className="hero-bg-base"></div>
+        <div className="hero-bg-texture"></div>
+        <div className="hero-bg-sheen" ref={sheenRef}></div>
+        <div className="hero-bg-vignette"></div>
+      </div>
+
       {/* --- TOP NAVIGATION --- */}
       <header className="navbar">
         <div className="nav-logo">AURA</div>
@@ -32,8 +65,6 @@ export default function HeroSection() {
 
       {/* --- MAIN HERO SPLIT --- */}
       <main className="hero-main">
-        
-        {/* Left Column: Typography & CTA */}
         <div className="hero-copy">
           <span className="eyebrow">PROJECTS . CREATE .</span>
           
@@ -55,11 +86,9 @@ export default function HeroSection() {
           </button>
         </div>
 
-        {/* Right Column: 3D Asset Container */}
         <div className="hero-canvas-container">
           <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
             <Suspense fallback={null}>
-              {/* Studio lighting setup for metallic reflections */}
               <Environment preset="city" />
               <ambientLight intensity={0.6} />
               <directionalLight position={[10, 10, 10]} intensity={2.5} color="#ffffff" />
@@ -67,7 +96,6 @@ export default function HeroSection() {
               
               <CameraLens modelPath="/models/camera.glb" baseScale={30} />
               
-              {/* Fake ambient occlusion shadow to ground the floating object */}
               <ContactShadows 
                 position={[0, -2.5, 0]} 
                 opacity={0.6} 

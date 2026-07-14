@@ -40,7 +40,7 @@ export default function CameraLens({ modelPath = '/models/camera.glb', baseScale
   }, [baseScale]); // Added baseScale to dependency array
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+    <Float speed={3} rotationIntensity={0.5} floatIntensity={0.5}>
       <group ref={groupRef}>
         <primitive object={scene} />
       </group>

@@ -1,15 +1,86 @@
 /* --- BASE SETUP --- */
+/* --- BASE SETUP --- */
 .hero-section {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at 70% 50%, #1c1c24 0%, #0a0a0c 60%, #000000 100%);
+  background: #000000; /* Pure black base */
   color: #f4f4f2;
   font-family: 'Archivo', sans-serif;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
+
+/* THE NEW LAYERED BACKGROUND ARCHITECTURE */
+.hero-bg-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0; /* GSAP will fade the entire container in */
+}
+
+/* Layer 1: The Dark Metal Base */
+.hero-bg-base {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, #2a2a32 0%, #121215 100%);
+  z-index: 1;
+}
+
+/* Layer 2: The Brushed Metal Grain Texture */
+.hero-bg-texture {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.015) 0px,
+    rgba(255, 255, 255, 0.015) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 2;
+}
+
+/* Layer 3: The Dynamic Light Sheen */
+.hero-bg-sheen {
+  position: absolute;
+  top: -100%; 
+  left: -100%; 
+  width: 300%; 
+  height: 300%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    rgba(255, 255, 255, 0) 65%
+  );
+  transform-origin: center;
+  z-index: 3;
+}
+
+/* Layer 4: Vignette to keep focus on the center */
+.hero-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.8) 120%);
+  z-index: 4;
+}
+
+/* Elevate the UI above the background layers */
+.navbar, 
+.hero-main, 
+.side-pagination, 
+.bottom-pagination, 
+.floating-actions {
+  z-index: 10;
+  position: relative;
+}
+
+/* Keep the rest of your existing CSS below this line */    
 
 /* --- NAVBAR --- */
 .navbar {
