@@ -3,7 +3,7 @@ import InnovateSection from '../components/layouts/InnovateSection';
 
 export default function Home() {
   return (
-    <div className="page-home" style={{"overflow":"hidden"}}>
+    <div className="page-home">
       <HeroSection />
       <InnovateSection/>
     </div>

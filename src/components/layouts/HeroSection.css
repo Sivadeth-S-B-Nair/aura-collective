@@ -1,7 +1,7 @@
 /* --- BASE SETUP --- */
 .hero-section {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: #000000; /* Pure black base */
   color: #f4f4f2;
