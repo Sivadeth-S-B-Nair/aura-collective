@@ -1,5 +1,4 @@
 /* --- BASE SETUP --- */
-/* --- BASE SETUP --- */
 .hero-section {
   position: relative;
   width: 100vw;
@@ -241,7 +240,7 @@
 }
 
 /* --- DECORATIONS --- */
-.side-pagination {
+/* .side-pagination {
   position: absolute;
   right: 2rem;
   top: 50%;
@@ -283,17 +282,17 @@
 .line-dot.active-line {
   width: 24px;
   background: #f4f4f2;
-}
+} */
 
-.floating-actions {
+/* .floating-actions {
   position: absolute;
   bottom: 2rem;
   right: 2rem;
   display: flex;
   gap: 1rem;
-}
+} */
 
-.icon-btn {
+/* .icon-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -305,8 +304,8 @@
   align-items: center;
   cursor: pointer;
   transition: background 0.3s ease;
-}
+} */
 
-.icon-btn:hover {
+/* .icon-btn:hover {
   background: rgba(255, 255, 255, 0.15);
-}
+} */
